@@ -3,6 +3,7 @@ dependencies:
 - python=3
 - scipy
 - pip:
+    - Flask-Migrate
     - flask-appbuilder
     - flask-restful-swagger
     - flask-restful

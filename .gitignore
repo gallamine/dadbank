@@ -99,3 +99,16 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+
+# Flask App Builder
+
+*.pyc
+app.db
+./tmp
+./build/*
+./.idea
+./.idea/*
+env
+venv
+*.sublime*

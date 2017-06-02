@@ -4,8 +4,30 @@ from flask.ext.appbuilder.models.sqla.interface import SQLAInterface
 from flask.ext.appbuilder import ModelView
 from app import appbuilder, db
 from .models import Account, Transaction
+import datetime
+from wtforms import ValidationError
 
 log = logging.getLogger(__name__)
+
+
+class PastDateCheck(object):
+    """
+    Verify the Date passed into the form is <= to today
+    """
+    def __init__(self, now_date=None, message=None):
+        if now_date:
+            self.now_date = now_date
+        else:
+            self.now_date = datetime.date.today()
+
+        if not message:
+            message = u'Datetime must be less or equal to {}.'.format(self.now_date)
+        self.message = message
+
+    def __call__(self, form, field):
+        if field.data > self.now_date:
+            raise ValidationError(self.message)
+
 
 
 """
@@ -13,7 +35,10 @@ log = logging.getLogger(__name__)
 """
 class TransactionModelView(ModelView):
     datamodel = SQLAInterface(Transaction)
-    list_columns = ['id', 'account_id', 'account', 'name', 'value']
+    list_columns = ['id', 'account', 'date', 'name', 'value']
+
+    validators_columns = {'date': [PastDateCheck()]
+                          }
 
 class AccountModelView(ModelView):
     datamodel = SQLAInterface(Account)

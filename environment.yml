@@ -1,0 +1,10 @@
+name: dadbank 
+dependencies:
+- python=3
+- scipy
+- pip:
+    - flask-appbuilder
+    - flask-restful-swagger
+    - flask-restful
+    - python-nvd3
+
